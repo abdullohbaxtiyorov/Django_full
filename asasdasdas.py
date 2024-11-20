@@ -1,6 +1,10 @@
 import os
+
 from datetime import datetime
+from email.policy import default
 from inspect import trace
+from os.path import exists
+from unicodedata import category
 
 import django
 
@@ -10,7 +14,8 @@ django.setup()
 
 from apps.models import Product, Category
 from django.db import transaction
-from django.db.models import Q, F
+from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
+
 # s = 'texnika'
 # product = Product.objects.filter(name__icontains= 'texnika').values('name')
 # category = Category.objects.filter(name__icontains='texnika').values('name')
@@ -33,6 +38,24 @@ product = Product.objects.select_for_update().filter(category_id=2)
 # obj = Product.objects.filter(category__name='meva').update(price= F('price')*2)
 # print(Product.objects.filter(category_id=2).count())
 # print(len(Product.objects.filter(category_id=2)))
-obj = Product.objects.in_bulk()
-for i,k in obj.items():
-    print(i,k.name)
+# obj = Product.objects.in_bulk()
+# obj = Product.objects.latest('name')
+# obj1 = Product.objects.order_by()
+
+
+# min_price_subquery = Product.objects.values('price').order_by('price')[:1]
+# min_price_subquery = Product.objects.values('price').aggregate(Min('price'))['price__min']
+# Product.objects.update(price=F('price') + Subquery(min_price_subquery))
+
+# products = Product.objects.values('name').annotate(total_price=Sum('price'))
+
+
+# res = Product.objects.values(c_name=F('category__name'))
+# for i in res:
+#     print(i)
+
+
+# res = Product.objects.values('name', c_name=F('category__name')).annotate(price=Sum('price'),count=Count('name'))
+res = Product.objects.filter(name='vali').exists()
+
+print(res)

@@ -16,3 +16,4 @@ class Command(BaseCommand):
             json.dump(list(data), f, indent=4)
 
         self.stdout.write(self.style.SUCCESS('Data exported successfully to watches_data.json'))
+
