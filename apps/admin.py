@@ -1,16 +1,14 @@
 from django.contrib import admin
+from django.db import connections
 
-from apps.models import Product, Category, User
+from apps.models import Product
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    pass
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    pass
+    def save_model(self, request, obj, form, change):
+        obj.save()
 
+        with connections['db_2'].cursor() as cursor:
+            cursor.execute("INSERT INTO apps_product(name,price) VALUES (%s,%s);", [obj.name, obj.price])

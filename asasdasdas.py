@@ -12,7 +12,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
 
 django.setup()
 
-from apps.models import Product, Category, User
+from apps.models import Product, User
 from django.db import transaction
 from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
 
@@ -23,8 +23,10 @@ from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
 # for i in r:
 #     print(i['name'])
 
-product = Product.objects.select_for_update().filter(category_id=2)
+product = Product.cheap.between_price(10000,25000)
 
+for _ in product:
+    print(_.name)
 # with transaction.atomic():
 #     for product in product:
 #         print(product.name)
@@ -57,8 +59,8 @@ product = Product.objects.select_for_update().filter(category_id=2)
 
 # res = Product.objects.values('name', c_name=F('category__name')).annotate(price=Sum('price'),count=Count('name'))
 # user = User.objects.filter(date_joined__year=2020)
-res = Product.objects.filter(name__contains='a',
-                             price__range=(2000,3500),
-                             description__isnull=False)
-
-print(res)
+# res = Product.objects.filter(name__contains='a',
+#                              price__range=(2000,3500),
+#                              description__isnull=False)
+#
+# print(res)
