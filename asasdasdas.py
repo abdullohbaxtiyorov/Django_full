@@ -1,18 +1,18 @@
-import os
+# import os
+#
+# from datetime import datetime
+# from email.policy import default
+# from inspect import trace
+# from os.path import exists
+# from unicodedata import category
+#
+# import django
+#
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
+#
+# django.setup()
 
-from datetime import datetime
-from email.policy import default
-from inspect import trace
-from os.path import exists
-from unicodedata import category
-
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
-
-django.setup()
-
-from apps.models import Product, User
+# from apps.models import Product, User
 from django.db import transaction
 from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
 
@@ -23,10 +23,10 @@ from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
 # for i in r:
 #     print(i['name'])
 
-product = Product.cheap.between_price(10000,25000)
-
-for _ in product:
-    print(_.name)
+# product = Product.cheap.between_price(10000,25000)
+#
+# for _ in product:
+#     print(_.name)
 # with transaction.atomic():
 #     for product in product:
 #         print(product.name)
@@ -64,3 +64,12 @@ for _ in product:
 #                              description__isnull=False)
 #
 # print(res)
+
+
+def scoreOfString(self, s: str) -> int:
+    res = 0
+    for i in range(len(s), 1):
+        res += abs(ascii(s[i - 1]) - ascii(s[i]))
+    return res
+
+print(scoreOfString("hello"))
