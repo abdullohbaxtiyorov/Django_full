@@ -66,10 +66,21 @@ from django.db.models import Q, F, Min, OuterRef, Subquery, Sum, Count
 # print(res)
 
 
-def scoreOfString(self, s: str) -> int:
+def scoreOfString(s: str) -> int:
     res = 0
-    for i in range(len(s), 1):
-        res += abs(ascii(s[i - 1]) - ascii(s[i]))
+    for i in range(1,len(s)):
+        res += abs(ord(s[i - 1]) - ord(s[i]))
     return res
 
-print(scoreOfString("hello"))
+
+s = 'hello'
+print(scoreOfString(s))def scoreOfString(s: str) -> int:
+    res = 0
+    for i in range(1,len(s)):
+        res += abs(ord(s[i - 1]) - ord(s[i]))
+    return res
+
+
+s = 'hello'
+print(scoreOfString(s))
+
